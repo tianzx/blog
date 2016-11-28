@@ -21,7 +21,7 @@ after_script:
   - git add --all
   - git commit -m "push from the travis server"
   # 推送到 blog-html 分支
-  - git push --force --quiet "https://${GH_Token}@${GH_REF}" master:blog-html
+  - git push --force  "https://${GH_Token}@${GH_REF}" master:blog-html
 env:
   global:
     - GH_REF: github.com/tianzx/blog.git
