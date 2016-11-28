@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+  - "7"
+cache:
+  directories:
+    - node_modules
+install:
+  - npm install
+before_script:
+  - git config --global user.name "tianzx"
+  - git config --global user.email "tianzx@aliyun.com"
+script:
+  # 生成静态文件
+  - npm run build
+after_script:
+  # 将生成的静态文件，初始化为 git 仓库
+  - cd public
+  - git init
+  - git config user.name "tianzx"
+  - git config user.email "tianzx@aliyun.com"
+  - git add --all
+  - git commit -m "push from the travis server"
+  # 推送到 blog-html 分支
+  - git push --force --quiet "https://${GH_Token}@${GH_REF}" master:blog-html
+
+env:
+  global:
+    - GH_REF: github.com/tianzx/blog.git
+    - secure: "Mw2EalEh/CbRhVzRlJK3+A/oaU2r7G96bK8NwQRTJTGynKpqTrKyeiHxnKMMKu7G6nPA/g2IRV81DzEcZhKPAQJYQv0ge7PmXYgR4JHJDyq0IhelMJqmVXIiHkXiO1UIMHEm8fPHiqCeRlDVhRf1jdgkPJvP03x4e9P+n0SKSXLPTmTtCYUaQrUokqdN43KU8yQ8yZm+TQWEqnpla5qTN3oKfbGuuVSy87r8ftAZIfxoHQofbUn+7Ix1uBwM4W+oo7i0Mkji17vGoUVLNzHqo0O688rFTr9ebSHPtIXvCb61Hgq8d9ILFeXUW5fmEVB9i0LbJ283bY/4XoLfT1fWElGvohZ7bJnksdYDIK5Lh6IN5EDD6Ire1ZOJuC5EmvbvGScwLDtwSzgwnzoFjc4MQTHCcKGmgn2VzQC3zvp8n6QYSr6LxvVAyfa3x7jM2YnPmG6zGGZyFaWbG/BqIh+l6WVMv+U/6Ok4UAPkCzv4JuKurek1LW1d/aMHEQWXObDBm16dO8vN+YDOc+JOxbfYG8UmRZxfBGgLvDTcrsCIZgzPmSaU80wfY3x09KRWgJhuadF8aJ7jAdYNUTFUWpp4PhBlq/CbNst0lIEl1Lo8MpMTqlC+Kd3APdyDOyyufoHngTBFiJjCCZlUCrJujXSADIH+IoOJPnFcf3f9FKLquUs="
